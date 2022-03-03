@@ -1,6 +1,7 @@
 ﻿using Core.Options;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -16,7 +17,11 @@ namespace Infrastructure.Extensions
             var defaultDbProvider = options.Defaults?.DBProvider;
             if (defaultDbProvider.ToLower() == "mssql")
             {
-                services.AddDbContext<ApplicationDbContext>(m => m.UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                services.AddDbContext<ApplicationDbContext>( builder => 
+                        builder
+                        .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                        .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
+                        );
             }
             var tenants = options.Tenants;
             foreach (var tenant in tenants)
@@ -32,7 +37,7 @@ namespace Infrastructure.Extensions
                 }               
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.SetConnectionString(connectionString);
+                dbContext.Database.SetConnectionString(connectionString);           
                 if (dbContext.Database.GetMigrations().Count() > 0)
                 {
                     dbContext.Database.Migrate();

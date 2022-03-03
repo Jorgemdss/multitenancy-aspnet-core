@@ -1,0 +1,17 @@
+###
+https://localhost:5001/api/Products?id=1
+tenant: java
+
+###
+https://localhost:5001/api/Products?id=1
+tenant: charlie
+
+###
+POST https://localhost:5001/api/Products
+content-type: application/json
+tenant: java
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}

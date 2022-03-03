@@ -3,6 +3,8 @@ using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
-    {
+    {     
         public string TenantId { get; set; }
         private readonly ITenantService _tenantService;
 
@@ -25,7 +27,8 @@ namespace Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Product>().HasQueryFilter(a => a.TenantId == TenantId);
+            //modelBuilder.Entity<Product>().HasQueryFilter(a => a.TenantId == TenantId);            
+            modelBuilder.Entity<Product>().ToTable(nameof(Products), TenantId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,7 +39,10 @@ namespace Infrastructure.Persistence
                 var DBProvider = _tenantService.GetDatabaseProvider();
                 if (DBProvider.ToLower() == "mssql")
                 {
-                    optionsBuilder.UseSqlServer(_tenantService.GetConnectionString());
+                    optionsBuilder
+                        .UseSqlServer(_tenantService.GetConnectionString())
+                        .LogTo(Console.WriteLine);
+
                 }
             }
         }
