@@ -7,10 +7,12 @@
 // public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 // {
 //     public ApplicationDbContext CreateDbContext(string[] args)
-//     {        
+//     {
 //         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 //         optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=sharedTenantDb;Integrated Security=True;MultipleActiveResultSets=True");
 
-//         return new ApplicationDbContext(optionsBuilder.Options);
+//         var t = new TenantService();
+
+//         return new ApplicationDbContext(optionsBuilder.Options, t);
 //     }
 // }

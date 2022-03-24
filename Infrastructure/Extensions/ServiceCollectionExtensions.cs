@@ -27,9 +27,9 @@ namespace Infrastructure.Extensions
                        builder
                        .ReplaceService<ITenantService, TenantService>()
                        .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))                       
-                       //.UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
+                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
                        .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-                       //.ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()                        
+                       .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()                        
                     );
             }
             var tenants = options.Tenants;

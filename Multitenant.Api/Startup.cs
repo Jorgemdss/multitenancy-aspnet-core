@@ -40,11 +40,8 @@ namespace Multitenant.Api
 
             services.AddDbContext<ApplicationDbContext>(
                     options => options.UseSqlServer(config.GetConnectionString("TenantSettings:Defaults:ConnectionString"))
-
            );
-        //    services.AddDbContext<ApplicationDbContext>( options => options
-        //             .UseSqlServer(config.GetConnectionString("TenantSettings:Defaults:ConnectionString"))
-        //             // .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Extensions;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,9 +13,15 @@ using System.Threading.Tasks;
 namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
-    {     
+    {
         public string TenantId { get; set; }
         private readonly ITenantService _tenantService;
+
+        // public ApplicationDbContext(DbContextOptions options) : base(options)
+        // {
+        //     _tenantService = new TenantService();
+        //     TenantId = _tenantService.GetTenant()?.TID;
+        // }
        
         public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
         {
@@ -28,7 +35,7 @@ namespace Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<Product>().HasQueryFilter(a => a.TenantId == TenantId);            
-            var schema = TenantId;            
+            var schema = TenantId;
             modelBuilder.Entity<Product>().ToTable(nameof(Products), schema);
         }
 
