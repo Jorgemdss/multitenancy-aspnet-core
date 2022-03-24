@@ -15,7 +15,7 @@ namespace Infrastructure.Persistence
     {     
         public string TenantId { get; set; }
         private readonly ITenantService _tenantService;
-
+       
         public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
         {
             _tenantService = tenantService;
@@ -28,7 +28,8 @@ namespace Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<Product>().HasQueryFilter(a => a.TenantId == TenantId);            
-            modelBuilder.Entity<Product>().ToTable(nameof(Products), TenantId);
+            var schema = TenantId;            
+            modelBuilder.Entity<Product>().ToTable(nameof(Products), schema);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

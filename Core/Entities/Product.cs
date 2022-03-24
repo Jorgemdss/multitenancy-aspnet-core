@@ -18,6 +18,8 @@ namespace Core.Entities
         public string Name { get; private set; }
         public string Description { get; private set; }
         public int Rate { get; private set; }
+
+        public int IdBatata { get; set; }
         
     }
 }

@@ -1,7 +1,11 @@
-﻿using Core.Options;
+﻿using Core.Interfaces;
+using Core.Options;
 using Infrastructure.Persistence;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -15,13 +19,18 @@ namespace Infrastructure.Extensions
             var options = services.GetOptions<TenantSettings>(nameof(TenantSettings));
             var defaultConnectionString = options.Defaults?.ConnectionString;
             var defaultDbProvider = options.Defaults?.DBProvider;
+
             if (defaultDbProvider.ToLower() == "mssql")
             {
-                services.AddDbContext<ApplicationDbContext>( builder => 
-                        builder
-                        .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                        .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-                        );
+                // TODO JS: meter dentro do foreach?
+                services.AddDbContext<ApplicationDbContext>(builder =>
+                       builder
+                       .ReplaceService<ITenantService, TenantService>()
+                       .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))                       
+                       //.UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
+                       .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
+                       //.ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()                        
+                    );
             }
             var tenants = options.Tenants;
             foreach (var tenant in tenants)
@@ -34,10 +43,13 @@ namespace Infrastructure.Extensions
                 else
                 {
                     connectionString = tenant.ConnectionString;
-                }               
+                }                
+
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.SetConnectionString(connectionString);           
+                dbContext.Database.SetConnectionString(connectionString);
+
+                //dbContext.TenantId = tenant.TID;          
                 if (dbContext.Database.GetMigrations().Count() > 0)
                 {
                     dbContext.Database.Migrate();

@@ -21,10 +21,19 @@ public class DbSchemaAwareModelCacheKeyFactory : IModelCacheKeyFactory
 //     };
 //   }
 
-  public object Create(DbContext context, bool designTime) => 
-     context is ApplicationDbContext applicationDbContext
-       ? (context.GetType(), applicationDbContext.TenantId, designTime)
-       : (object)context.GetType();
+  public object Create(DbContext context, bool designTime) 
+  {
+    if (context is ApplicationDbContext applicationDbContext)
+    {
+      var r = (context.GetType(), applicationDbContext.TenantId, designTime);
+      return r;
+    }
+    return  (object)context.GetType();
+
+    //  context is ApplicationDbContext applicationDbContext
+    //    ? (context.GetType(), applicationDbContext.TenantId, designTime)
+    //    : (object)context.GetType();
+  }
 
     public object Create(DbContext context) => Create(context, false);
 }
