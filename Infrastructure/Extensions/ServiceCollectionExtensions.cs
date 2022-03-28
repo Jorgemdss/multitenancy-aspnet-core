@@ -26,8 +26,9 @@ namespace Infrastructure.Extensions
                 services.AddDbContext<ApplicationDbContext>(builder =>
                        builder
                        .ReplaceService<ITenantService, TenantService>()
-                       .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))                       
-                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
+                       //.UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))                       
+                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "dbo"))
+                       .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
                        .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
                        .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()                        
                     );

@@ -1,18 +1,17 @@
-// using Infrastructure.Persistence;
-// using Infrastructure.Services;
-// using Microsoft.EntityFrameworkCore;
-// using Microsoft.EntityFrameworkCore.Design;
-// using Microsoft.Extensions.Configuration;
+using Infrastructure.Persistence;
+using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
-// public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-// {
-//     public ApplicationDbContext CreateDbContext(string[] args)
-//     {
-//         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-//         optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=sharedTenantDb;Integrated Security=True;MultipleActiveResultSets=True");
+public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+{
+    public ApplicationDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=sharedTenantDb;Integrated Security=True;MultipleActiveResultSets=True");
+        
 
-//         var t = new TenantService();
-
-//         return new ApplicationDbContext(optionsBuilder.Options, t);
-//     }
-// }
+        return new ApplicationDbContext(optionsBuilder.Options);
+    }
+}

@@ -17,11 +17,9 @@ namespace Infrastructure.Persistence
         public string TenantId { get; set; }
         private readonly ITenantService _tenantService;
 
-        // public ApplicationDbContext(DbContextOptions options) : base(options)
-        // {
-        //     _tenantService = new TenantService();
-        //     TenantId = _tenantService.GetTenant()?.TID;
-        // }
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {            
+        }
        
         public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
         {
@@ -41,7 +39,7 @@ namespace Infrastructure.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var tenantConnectionString = _tenantService.GetConnectionString();
+            var tenantConnectionString = _tenantService?.GetConnectionString();
             if (!string.IsNullOrEmpty(tenantConnectionString))
             {
                 var DBProvider = _tenantService.GetDatabaseProvider();

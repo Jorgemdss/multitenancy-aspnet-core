@@ -6,6 +6,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +31,7 @@ namespace Multitenant.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Multitenant.Api", Version = "v1" });
-            });
+            });            
             services.AddTransient<ITenantService, TenantService>();
             services.AddTransient<IProductService, ProductService>();
             services.Configure<TenantSettings>(config.GetSection(nameof(TenantSettings)));
