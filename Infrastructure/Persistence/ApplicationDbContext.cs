@@ -12,20 +12,33 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public interface IDbContextSchema
+    {
+        string TenantId { get; }
+    }
+
+    public class ApplicationDbContext : DbContext, IDbContextSchema
     {
         public string TenantId { get; set; }
         private readonly ITenantService _tenantService;
 
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {            
-        }
-       
-        public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
+        // public ApplicationDbContext(DbContextOptions options) : base(options)
+        // {
+        // }
+
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            IDbContextSchema schema = null)
+            : base(options)
         {
-            _tenantService = tenantService;
-            TenantId = _tenantService.GetTenant()?.TID;
+            TenantId = schema?.TenantId;
         }
+
+        // public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
+        // {
+        //     _tenantService = tenantService;
+        //     TenantId = _tenantService.GetTenant()?.TID;
+        // }
 
         public DbSet<Product> Products { get; set; }
 

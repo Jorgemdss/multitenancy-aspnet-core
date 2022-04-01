@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Core.Interfaces;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
 
 namespace Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialMigrationTenats : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+
+        private readonly IDbContextSchema Ctx;
+
+        public initialMigrationTenats(ApplicationDbContext ctx)
         {
+            Ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+            Console.WriteLine("Migration schema: " + Ctx.TenantId);
+            Console.WriteLine("***************");
+        }
+
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {            
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
@@ -15,8 +30,9 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rate = table.Column<int>(type: "int", nullable: false),
-                    TenantId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    IdBatata = table.Column<int>(type: "int", nullable: false)
                 },
+                schema: Ctx.TenantId,
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
@@ -26,7 +42,8 @@ namespace Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Products",
+                schema: Ctx.TenantId);
         }
     }
 }

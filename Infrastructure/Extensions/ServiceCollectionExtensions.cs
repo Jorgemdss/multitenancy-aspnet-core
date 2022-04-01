@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 
 namespace Infrastructure.Extensions
@@ -20,22 +21,32 @@ namespace Infrastructure.Extensions
             var defaultConnectionString = options.Defaults?.ConnectionString;
             var defaultDbProvider = options.Defaults?.DBProvider;
 
+            // services.AddSingleton<IDbContextSchema>(new DbContextSchema("alpha"));
+            //services.AddSingleton<IDbContextSchema>(new DbContextSchema("beta"));
+            services.AddSingleton<IDbContextSchema>(new DbContextSchema("charlie"));
+            //services.AddSingleton<IDbContextSchema>(new DbContextSchema("java"));           
+            
+
             if (defaultDbProvider.ToLower() == "mssql")
             {
                 // TODO JS: meter dentro do foreach?
                 services.AddDbContext<ApplicationDbContext>(builder =>
                        builder
                        .ReplaceService<ITenantService, TenantService>()
-                       //.UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))                       
-                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "dbo"))
+                       .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
+                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "charlie"))
                        .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
                        .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-                       .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()                        
+                       .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
                     );
             }
+
             var tenants = options.Tenants;
             foreach (var tenant in tenants)
             {
+                Console.WriteLine("Tenant name - " + tenant?.Name);
+                Console.WriteLine("Tenant schema (TID) - " + tenant?.TID);
+               
                 string connectionString;
                 if (string.IsNullOrEmpty(tenant.ConnectionString))
                 {
@@ -44,7 +55,8 @@ namespace Infrastructure.Extensions
                 else
                 {
                     connectionString = tenant.ConnectionString;
-                }                
+                }
+                Console.WriteLine("Connection string - " + connectionString);
 
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -56,6 +68,7 @@ namespace Infrastructure.Extensions
                     dbContext.Database.Migrate();
                 }
             }
+
             return services;
         }
         public static T GetOptions<T>(this IServiceCollection services, string sectionName) where T : new()

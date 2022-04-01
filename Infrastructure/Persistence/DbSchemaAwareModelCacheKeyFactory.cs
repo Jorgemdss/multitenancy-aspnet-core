@@ -1,4 +1,5 @@
 
+using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -9,31 +10,62 @@ namespace Infrastructure.Persistence;
 // https://github.com/xerere/EntityFrameworkCore-Demos/blob/master/src/EntityFramework.Demo/SchemaChange/DbSchemaAwareModelCacheKeyFactory.cs
 public class DbSchemaAwareModelCacheKeyFactory : IModelCacheKeyFactory
 {
-// ! avoid the "The requested configuration is not stored in the read-optimized model, please use DbContext.GetService<IDesignTimeModel>().Model."
-// read https://nicolaiarocci.com/my-asp.net-5-migration-to-.net-6/
-// in the -> New IModelCacheKeyFactory.Create() overload
+    // ! avoid the "The requested configuration is not stored in the read-optimized model, please use DbContext.GetService<IDesignTimeModel>().Model."
+    // read https://nicolaiarocci.com/my-asp.net-5-migration-to-.net-6/
+    // in the -> New IModelCacheKeyFactory.Create() overload
 
-//   public object Create(DbContext context)
-//   {
-//     return new {
-//         Type = context.GetType(),
-//         Schema = context is ApplicationDbContext applicationDbContext ? (context as ApplicationDbContext).TenantId : null
-//     };
-//   }
+    //   public object Create(DbContext context)
+    //   {
+    //     return new {
+    //         Type = context.GetType(),
+    //         Schema = context is ApplicationDbContext applicationDbContext ? (context as ApplicationDbContext).TenantId : null
+    //     };
+    //   }
+    // public object Create(DbContext context)
+    // {
+    //     return new
+    //     {
+    //         Type = context.GetType(),
+    //         Schema = context is IDbContextSchema schema ? schema.TenantId : null
+    //     };
+    // }
 
-  public object Create(DbContext context, bool designTime) 
-  {
-    if (context is ApplicationDbContext applicationDbContext)
-    {
-      var r = (context.GetType(), applicationDbContext.TenantId, designTime);
-      return r;
+    // public object Create(DbContext context, bool designTime)
+    // {
+    //     // if (context is ApplicationDbContext applicationDbContext)
+    //     // {
+    //     //     var r = (context.GetType(), applicationDbContext.TenantId, designTime);
+
+    //     //     return r;
+    //     // }
+    //     //return (object)context.GetType();
+    //     if (context is IDbContextSchema schema)
+    //     {
+    //         Console.WriteLine("DB create with schema (tentnatId): " + schema.TenantId);
+    //         return new
+    //         {
+    //             //Type = context is ApplicationDbContext applicationDbContext ? (context.GetType(), applicationDbContext.TenantId, designTime) : null,
+    //             Type = (context.GetType(), schema.TenantId, designTime),
+    //             Schema = context is IDbContextSchema s ? s.TenantId : null
+    //         };
+
+    //     }
+
+    //     return context is IDbContextSchema sc
+    //       ? (context.GetType(), sc.TenantId, designTime)
+    //       : (object)context.GetType();
+    // }
+
+    public object Create(DbContext context, bool designTime)
+    {   
+        return new
+        {
+            Type = (context.GetType(), designTime),
+            Schema = context is IDbContextSchema s ? s.TenantId : null
+        };
+
+
     }
-    return  (object)context.GetType();
-
-    //  context is ApplicationDbContext applicationDbContext
-    //    ? (context.GetType(), applicationDbContext.TenantId, designTime)
-    //    : (object)context.GetType();
-  }
 
     public object Create(DbContext context) => Create(context, false);
 }
