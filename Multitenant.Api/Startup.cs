@@ -31,18 +31,19 @@ namespace Multitenant.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Multitenant.Api", Version = "v1" });
-            });            
+            });
             services.AddTransient<ITenantService, TenantService>();
             services.AddTransient<IProductService, ProductService>();
             services.Configure<TenantSettings>(config.GetSection(nameof(TenantSettings)));
-            services.AddAndMigrateTenantDatabases(config);
+            services.AddAndMigrateTenantDatabases(config);           
+            
 
             //JG: added so that i might add migrations
 
-            services.AddDbContext<ApplicationDbContext>(
-                    options => options.UseSqlServer(config.GetConnectionString("TenantSettings:Defaults:ConnectionString"))
-           );
-        
+            // services.AddDbContext<ApplicationDbContext>(
+            //         options => options.UseSqlServer(config.GetConnectionString("TenantSettings:Defaults:ConnectionString"))
+            // );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
