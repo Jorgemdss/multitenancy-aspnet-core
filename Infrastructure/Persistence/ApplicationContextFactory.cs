@@ -15,7 +15,7 @@ public class ApplicationContextFactory : IDesignTimeDbContextFactory<Application
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=sharedTenantDb;Integrated Security=True;MultipleActiveResultSets=True");
         
-        Console.WriteLine("Create db context: " + TenantId);
+        Console.WriteLine("Create factory db context: " + TenantId);
         return new ApplicationDbContext(optionsBuilder.Options, this);
     }
 

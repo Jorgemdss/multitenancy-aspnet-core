@@ -25,21 +25,21 @@ namespace Infrastructure.Extensions
             //services.AddSingleton<IDbContextSchema>(new DbContextSchema("beta"));
             //services.AddSingleton<IDbContextSchema>(new DbContextSchema("charlie"));
             // services.AddSingleton<IDbContextSchema>(new DbContextSchema("java"));
-            
 
 
-            if (defaultDbProvider.ToLower() == "mssql")
-            {
-                services.AddDbContext<ApplicationDbContext>(builder =>
-                       builder
-                       .ReplaceService<ITenantService, TenantService>()
-                       .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
-                       .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "dbo"))
-                       .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
-                       .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-                       .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
-                    );
-            }
+
+            // if (defaultDbProvider.ToLower() == "mssql")
+            // {
+            //     services.AddDbContext<ApplicationDbContext>(builder =>
+            //            builder
+            //            .ReplaceService<ITenantService, TenantService>()
+            //            .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
+            //            .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
+            //            .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
+            //            .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
+            //            .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
+            //         );
+            // }
 
             var defaultConnectionString = options.Defaults?.ConnectionString;
             var tenants = options.Tenants;
@@ -62,28 +62,26 @@ namespace Infrastructure.Extensions
                 Console.WriteLine("Tenant name - " + tenant?.Name);
                 Console.WriteLine("Tenant schema (TID) - " + schema);
 
-                // services.AddSingleton<IDbContextSchema>(new DbContextSchema(schema));
-                // if (defaultDbProvider.ToLower() == "mssql")
-                // {
-                //     services.AddDbContext<ApplicationDbContext>(builder =>
-                //            builder
-                //            .ReplaceService<ITenantService, TenantService>()
-                //            .UseSqlServer(connectionString)
-                //            .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
-                //            .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", schema))
-                //            .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
-                //            .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-                //            .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
-                //         );
-                // }
+                services.AddSingleton<IDbContextSchema>(new DbContextSchema(schema));
+
+                if (defaultDbProvider.ToLower() == "mssql")
+                {
+                    services.AddDbContext<ApplicationDbContext>(builder =>
+                           builder
+                           .ReplaceService<ITenantService, TenantService>()
+                           .UseSqlServer(connectionString)
+                           .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
+                           .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", schema))
+                           .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
+                           .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
+                           .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
+                        );
+                }
 
 
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                
-                
-                dbContext.Database.SetConnectionString(connectionString);               
-                
+                dbContext.Database.SetConnectionString(connectionString);
 
                 Console.WriteLine("------DB context schema: " + dbContext.TenantId);
 
@@ -91,6 +89,8 @@ namespace Infrastructure.Extensions
                 {
                     dbContext.Database.Migrate();
                 }
+                services.Clear();
+                //dbContext.Dispose();
             }
 
             return services;

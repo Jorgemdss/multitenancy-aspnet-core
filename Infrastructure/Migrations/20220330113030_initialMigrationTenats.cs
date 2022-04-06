@@ -12,7 +12,7 @@ namespace Infrastructure.Migrations
 
         private readonly IDbContextSchema Ctx;
 
-        public initialMigrationTenats(ApplicationDbContext ctx)
+        public initialMigrationTenats(IDbContextSchema  ctx)
         {
             Ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
             Console.WriteLine("Migration schema: " + Ctx.TenantId);
