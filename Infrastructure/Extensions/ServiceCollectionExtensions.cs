@@ -19,6 +19,7 @@ namespace Infrastructure.Extensions
         public static IServiceCollection AddAndMigrateTenantDatabases(this IServiceCollection services, IConfiguration config)
         {
             var options = services.GetOptions<TenantSettings>(nameof(TenantSettings));
+
             var defaultDbProvider = options.Defaults?.DBProvider;
 
             // services.AddSingleton<IDbContextSchema>(new DbContextSchema("alpha"));
@@ -69,7 +70,6 @@ namespace Infrastructure.Extensions
                     services.AddDbContext<ApplicationDbContext>(builder =>
                            builder
                            .ReplaceService<ITenantService, TenantService>()
-                           .UseSqlServer(connectionString)
                            .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
                            .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", schema))
                            .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
@@ -78,8 +78,8 @@ namespace Infrastructure.Extensions
                         );
                 }
 
-
                 using var scope = services.BuildServiceProvider().CreateScope();
+
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.SetConnectionString(connectionString);
 
@@ -89,8 +89,15 @@ namespace Infrastructure.Extensions
                 {
                     dbContext.Database.Migrate();
                 }
-                services.Clear();
+
+                //scope.Dispose();                
                 //dbContext.Dispose();
+                // ↑ nada disto acima functiona
+
+                // O services tem um Clear (porque é IEnumerable)
+                // Isto funciona para as migrações, mas como dám erro não corre o projecto.
+                
+                services.Clear();
             }
 
             return services;
