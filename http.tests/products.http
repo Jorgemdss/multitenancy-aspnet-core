@@ -7,6 +7,10 @@ https://localhost:5001/api/Products?id=1
 tenant: charlie
 
 ###
+https://localhost:5001/api/Products?id=1
+tenant: dbo
+
+###
 # https://localhost:5001/api/Products?id=1
 # content-type: application/json
 # tenant: java

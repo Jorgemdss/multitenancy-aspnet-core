@@ -22,26 +22,6 @@ namespace Infrastructure.Extensions
 
             var defaultDbProvider = options.Defaults?.DBProvider;
 
-            // services.AddSingleton<IDbContextSchema>(new DbContextSchema("alpha"));
-            //services.AddSingleton<IDbContextSchema>(new DbContextSchema("beta"));
-            //services.AddSingleton<IDbContextSchema>(new DbContextSchema("charlie"));
-            // services.AddSingleton<IDbContextSchema>(new DbContextSchema("java"));
-
-
-
-            // if (defaultDbProvider.ToLower() == "mssql")
-            // {
-            //     services.AddDbContext<ApplicationDbContext>(builder =>
-            //            builder
-            //            .ReplaceService<ITenantService, TenantService>()
-            //            .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
-            //            .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", "java"))
-            //            .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
-            //            .ReplaceService<IModelCacheKeyFactory, DbSchemaAwareModelCacheKeyFactory>() //JG
-            //            .ReplaceService<IMigrationsAssembly, DbSchemaAwareMigrationAssembly>()
-            //         );
-            // }
-
             var defaultConnectionString = options.Defaults?.ConnectionString;
             var tenants = options.Tenants;
 
@@ -58,7 +38,6 @@ namespace Infrastructure.Extensions
                     services.Remove(descriptor);
                 }
 
-
                 string connectionString;
                 if (string.IsNullOrEmpty(tenant.ConnectionString))
                 {
@@ -68,19 +47,18 @@ namespace Infrastructure.Extensions
                 {
                     connectionString = tenant.ConnectionString;
                 }
-                
+
                 Console.WriteLine("Tenant name - " + tenant?.Name);
                 Console.WriteLine("Tenant schema (TID) - " + schema);
 
                 services.AddSingleton<IDbContextSchema>(new DbContextSchema(schema));
-
-
 
                 if (defaultDbProvider.ToLower() == "mssql")
                 {
                     services.AddDbContext<ApplicationDbContext>(builder =>
                            builder
                            .ReplaceService<ITenantService, TenantService>()
+                           .UseSqlServer(connectionString)
                            .UseSqlServer(e => e.MigrationsAssembly(typeof(ApplicationContextFactory).Assembly.FullName))
                            .UseSqlServer(e => e.MigrationsHistoryTable("__EFMigrationsHistory", schema))
                            .ReplaceService<IDesignTimeDbContextFactory<DbContext>, ApplicationContextFactory>()
@@ -92,25 +70,14 @@ namespace Infrastructure.Extensions
                 using var scope = services.BuildServiceProvider().CreateScope();
 
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.SetConnectionString(connectionString);
-
-                Console.WriteLine("Connection string - " + connectionString);
-
+                //dbContext.Database.SetConnectionString(connectionString);
+                
                 Console.WriteLine("------DB context schema: " + dbContext.TenantId);
 
                 if (dbContext.Database.GetMigrations().Count() > 0)
                 {
                     dbContext.Database.Migrate();
                 }
-
-                //scope.Dispose();                
-                //dbContext.Dispose();
-                // ↑ nada disto acima functiona
-
-                // O services tem um Clear (porque é IEnumerable)
-                // Isto funciona para as migrações, mas como dám erro não corre o projecto.
-
-                //services.Clear();
             }
 
             return services;
