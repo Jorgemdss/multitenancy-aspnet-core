@@ -49,6 +49,15 @@ namespace Infrastructure.Extensions
             {
                 var schema = tenant?.TID;
 
+                var descriptor = services.SingleOrDefault(
+                               d => d.ServiceType ==
+                                   typeof(DbContextOptions<ApplicationDbContext>));
+
+                if (descriptor != null)
+                {
+                    services.Remove(descriptor);
+                }
+
 
                 string connectionString;
                 if (string.IsNullOrEmpty(tenant.ConnectionString))
@@ -59,11 +68,13 @@ namespace Infrastructure.Extensions
                 {
                     connectionString = tenant.ConnectionString;
                 }
-                //Console.WriteLine("Connection string - " + connectionString);
+                
                 Console.WriteLine("Tenant name - " + tenant?.Name);
                 Console.WriteLine("Tenant schema (TID) - " + schema);
 
                 services.AddSingleton<IDbContextSchema>(new DbContextSchema(schema));
+
+
 
                 if (defaultDbProvider.ToLower() == "mssql")
                 {
@@ -83,6 +94,8 @@ namespace Infrastructure.Extensions
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.SetConnectionString(connectionString);
 
+                Console.WriteLine("Connection string - " + connectionString);
+
                 Console.WriteLine("------DB context schema: " + dbContext.TenantId);
 
                 if (dbContext.Database.GetMigrations().Count() > 0)
@@ -96,8 +109,8 @@ namespace Infrastructure.Extensions
 
                 // O services tem um Clear (porque é IEnumerable)
                 // Isto funciona para as migrações, mas como dám erro não corre o projecto.
-                
-                services.Clear();
+
+                //services.Clear();
             }
 
             return services;
