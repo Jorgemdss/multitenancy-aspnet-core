@@ -1,17 +1,18 @@
 ###
-GET https://localhost:5002/api/Products?id=1
-tenant: java
-
-###
-GET https://localhost:5002/api/Products?id=1
-tenant: charlie
-
-###
-GET https://localhost:5002/api/Products?id=1
+GET https://localhost:5002/api/Products
 tenant: dbo
 
 ###
-POST https://localhost:5002/api/Products?id=1
+GET https://localhost:5002/api/Products
+tenant: java
+
+
+###
+GET https://localhost:5002/api/Products
+tenant: charlie
+
+###
+POST https://localhost:5002/api/Products
 content-type: application/json
 tenant: java
 

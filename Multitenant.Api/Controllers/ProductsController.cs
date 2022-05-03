@@ -14,12 +14,20 @@ namespace Multitenant.Api.Controllers
         {
             _service = service;
         }
+        // [HttpGet]
+        // public async Task<IActionResult> GetAsync(int id)
+        // {
+        //     var productDetails = await _service.GetByIdAsync(id);
+        //     return Ok(productDetails);
+        // }
+
         [HttpGet]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetAsync()
         {
-            var productDetails = await _service.GetByIdAsync(id);
-            return Ok(productDetails);
+            var allProducts = await _service.GetAllAsync();
+            return Ok(allProducts);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateProductRequest request)
         {
