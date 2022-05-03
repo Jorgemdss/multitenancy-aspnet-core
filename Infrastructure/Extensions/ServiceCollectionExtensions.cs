@@ -52,6 +52,7 @@ namespace Infrastructure.Extensions
                 Console.WriteLine("Tenant schema (TID) - " + schema);
 
                 services.AddSingleton<IDbContextSchema>(new DbContextSchema(schema));
+                //services.AddTransient<IDbContextSchema>(f => new DbContextSchema(schema));
 
                 if (defaultDbProvider.ToLower() == "mssql")
                 {
@@ -71,7 +72,7 @@ namespace Infrastructure.Extensions
 
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 //dbContext.Database.SetConnectionString(connectionString);
-                
+
                 Console.WriteLine("------DB context schema: " + dbContext.TenantId);
 
                 if (dbContext.Database.GetMigrations().Count() > 0)

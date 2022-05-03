@@ -2237,11 +2237,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj",
+      "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj",
       "projectName": "Multitenant.Api",
-      "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj",
+      "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj",
       "packagesPath": "C:\\Users\\Jorge\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\obj\\",
+      "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2256,8 +2256,8 @@
         "net6.0": {
           "targetAlias": "net6",
           "projectReferences": {
-            "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj"
+            "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -2301,7 +2301,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
       }
     }
   }

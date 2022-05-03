@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj": {}
+    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\Core.csproj": {
+    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\Core.csproj",
+        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\Jorge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\obj\\",
+        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -52,18 +52,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Jorge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -78,8 +78,8 @@
           "net6.0": {
             "targetAlias": "net6",
             "projectReferences": {
-              "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\Core.csproj": {
-                "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Core\\Core.csproj"
+              "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Core\\Core.csproj"
               }
             }
           }
@@ -156,18 +156,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj": {
+    "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj",
         "projectName": "Multitenant.Api",
-        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\Multitenant.Api.csproj",
+        "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\Multitenant.Api.csproj",
         "packagesPath": "C:\\Users\\Jorge\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Multitenant.Api\\obj\\",
+        "outputPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Multitenant.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -182,8 +182,8 @@
           "net6.0": {
             "targetAlias": "net6",
             "projectReferences": {
-              "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Jorge\\Documents\\repos\\multitenancy-aspnet-core_MIGS_\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -227,7 +227,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Multitenant.Api/bin/Debug/net6/Multitenant.Api.dll",
+            "program": "${workspaceFolder}/Multitenant.Api/bin/Debug/net6.0/Multitenant.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Multitenant.Api",
             "stopAtEntry": false,
