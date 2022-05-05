@@ -12,13 +12,15 @@ public class ApplicationContextFactory : IDesignTimeDbContextFactory<Application
 
     public ApplicationDbContext CreateDbContext(string[] args)
     {
+        
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         optionsBuilder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=mig_sharedTenantDb;Integrated Security=True;MultipleActiveResultSets=True");
-        
+
         Console.WriteLine("Create factory db context: " + TenantId);
-        return new ApplicationDbContext(optionsBuilder.Options, this);
+        //return new ApplicationDbContext(optionsBuilder.Options);
+        return new ApplicationDbContext(optionsBuilder.Options, null, this);
     }
 
-    
+
 
 }

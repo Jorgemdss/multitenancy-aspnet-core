@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -7,12 +6,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class initialMigrationTenats : Migration
+    public partial class fakeInitialSchemas : Migration
     {
 
         private readonly IDbContextSchema Ctx;
+        public fakeInitialSchemas()
+        {
+            
+        }
 
-        public initialMigrationTenats(IDbContextSchema  ctx)
+        public fakeInitialSchemas(IDbContextSchema ctx)
         {
             Ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
             Console.WriteLine("Migration schema: " + Ctx.TenantId);
@@ -20,7 +23,7 @@ namespace Infrastructure.Migrations
         }
 
         protected override void Up(MigrationBuilder migrationBuilder)
-        {            
+        {
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
@@ -30,7 +33,7 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rate = table.Column<int>(type: "int", nullable: false),
-                    IdBatata = table.Column<int>(type: "int", nullable: false)
+                    Cebola = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 schema: Ctx.TenantId,
                 constraints: table =>

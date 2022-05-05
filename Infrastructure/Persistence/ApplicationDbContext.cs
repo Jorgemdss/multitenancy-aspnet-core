@@ -1,10 +1,12 @@
 ﻿using Core.Contracts;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Options;
 using Infrastructure.Extensions;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Threading;
@@ -24,21 +26,34 @@ namespace Infrastructure.Persistence
 
         // public ApplicationDbContext(DbContextOptions options) : base(options)
         // {
+        //     _tenantService = new TenantService();
+        //     TenantId = "dbo";
         // }
 
-        public ApplicationDbContext(
-            DbContextOptions<ApplicationDbContext> options,
-            IDbContextSchema schema = null)
-            : base(options)
-        {
-            TenantId = schema?.TenantId;
-        }
-
-        // public ApplicationDbContext(DbContextOptions options, ITenantService tenantService) : base(options)
+        // public ApplicationDbContext(
+        //     DbContextOptions<ApplicationDbContext> options,
+        //     IDbContextSchema schema)
+        //     : base(options)
         // {
-        //     _tenantService = tenantService;
-        //     TenantId = _tenantService.GetTenant()?.TID;
+        //     _tenantService = new TenantService();
+        //     TenantId = schema.TenantId;
         // }
+
+        public ApplicationDbContext(DbContextOptions options, ITenantService tenantService, IDbContextSchema schema) : base(options)
+        {
+            TenantId = schema.TenantId;
+            if (tenantService == null)
+            {
+                _tenantService = new TenantService();
+            }
+            else
+            {
+
+                _tenantService = tenantService;
+                var tid = tenantService.GetTenant()?.TID;
+                TenantId = tid != null ? tid : schema.TenantId;
+            }            
+        }
 
         public DbSet<Product> Products { get; set; }
 
@@ -46,8 +61,7 @@ namespace Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<Product>().HasQueryFilter(a => a.TenantId == TenantId);            
-            var schema = TenantId;
-            modelBuilder.Entity<Product>().ToTable(nameof(Products), schema);
+            modelBuilder.Entity<Product>().ToTable(nameof(Products), TenantId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
